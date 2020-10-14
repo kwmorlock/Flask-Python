@@ -1,9 +1,9 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sql:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 
 class Todo(db.Model):
@@ -19,7 +19,7 @@ class Todo(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        task_content =request.form['content']
+        task_content = request.form['content']
         new_task = Todo(content=task_content)
 
         try:
@@ -29,7 +29,7 @@ def index():
         except:
             return 'Oh no there was a problem!'
     else:
-        tasks = Todo.query.order_by(Todo.date.created).all()
+        tasks = Todo.query.order_by(Todo.date_created).all()
         return render_template('index.html', tasks=tasks)
 
 if __name__ == "__main__":
