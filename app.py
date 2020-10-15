@@ -43,5 +43,9 @@ def delete(id):
     except:
         return 'There was a problem attempting to delete'
 
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    return ''
+
 if __name__ == "__main__":
     app.run(debug=True)
